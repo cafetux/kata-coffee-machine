@@ -2,42 +2,51 @@ package fr.coffee.logic;
 
 import fr.coffee.maker.CoffeeMaker;
 
+import static fr.coffee.logic.BeverageType.CHOCOLATE;
+import static fr.coffee.logic.BeverageType.COFFEE;
+import static fr.coffee.logic.BeverageType.TEA;
+
 /**
  * transform GUI commands on coffeeMachine protocol command
  */
 public class CoffeeMachineAdapter {
 
     private CoffeeMaker maker;
+    private int moneyInCents = 0;
 
     public void command(BeverageType beverageType, int nbSugar) {
-        String makerInstruction = translateCommand(beverageType, nbSugar);
-        maker.make(makerInstruction);
-    }
 
-    private String translateCommand(BeverageType beverageType, int nbSugar) {
-        StringBuilder makerInstruction = new StringBuilder();
-        makerInstruction.append(getBeverageCodeLetter(beverageType));
-        makerInstruction.append(":");
-        if(nbSugar>0) {
-            makerInstruction.append(nbSugar);
-            makerInstruction.append(":");
-            makerInstruction.append("0");
-        }else{
-            makerInstruction.append(":");
+        Beverage beverageToCommand= adapt(beverageType,nbSugar);
+
+        if(beverageToCommand.costMoreThan(moneyInCents)){
+            sendMessage("missing money");
+        }else {
+            make(beverageToCommand);
         }
-        return makerInstruction.toString();
     }
 
-    private String getBeverageCodeLetter(BeverageType beverageType) {
+    private void make(Beverage beverageToCommand) {
+        maker.make(beverageToCommand.toString());
+    }
+
+    private void sendMessage(final String message) {
+        maker.make("M:" + message);
+    }
+
+    private Beverage adapt(BeverageType beverageType, int nbSugar) {
         switch (beverageType) {
             case COFFEE:
-                return "C";
+                return new Beverage(COFFEE,60,"C",nbSugar);
             case TEA:
-                return "T";
+                return new Beverage(TEA,40,"T",nbSugar);
             case CHOCOLATE:
-                return "H";
+                return new Beverage(CHOCOLATE,50,"H",nbSugar);
             default:
                 throw new IllegalArgumentException("unknown beverage type "+beverageType);
         }
+    }
+
+    public void receiveCoin(int centimes) {
+        this.moneyInCents+=centimes;
     }
 }
