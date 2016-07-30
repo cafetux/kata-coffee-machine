@@ -8,16 +8,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static fr.coffee.logic.BeverageType.CHOCOLATE;
-import static fr.coffee.logic.BeverageType.COFFEE;
-import static fr.coffee.logic.BeverageType.TEA;
+import static fr.coffee.logic.BeverageType.*;
 import static org.mockito.Mockito.only;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoffeeMachineAdapterTest {
 
     @InjectMocks
-    private CoffeeMachineAdapter service;
+    private CoffeeMachineLogicService service;
     @Mock
     private CoffeeMaker maker;
 
@@ -54,7 +52,34 @@ public class CoffeeMachineAdapterTest {
         Given_enougth_money_for_TEA();
         when_we_command(TEA, with_two_sugars());
         then_maker_receive_command("T:2:0");
-   }
+    }
+
+    @Test
+    public void should_can_order_orange_juice(){
+        Given_enougth_money_for_Orange_Juice();
+        when_we_command(ORANGE_JUICE, with_two_sugars());
+        then_maker_receive_command("O:2:0");
+    }
+
+    @Test
+    public void should_can_order_extra_hot_coffee(){
+        Given_enougth_money_for_COFFEE();
+        when_we_command_extra_hot(COFFEE, with_two_sugars());
+        then_maker_receive_command("Ch:2:0");
+    }
+    @Test
+    public void should_can_order_extra_hot_chocolate(){
+        Given_enougth_money_for_CHOCOLATE();
+        when_we_command_extra_hot(CHOCOLATE, with_no_sugar());
+        then_maker_receive_command("Hh::");
+    }
+
+    @Test
+    public void should_can_order_extra_hot_tea(){
+        Given_enougth_money_for_TEA();
+        when_we_command_extra_hot(TEA, with_one_sugar());
+        then_maker_receive_command("Th:1:0");
+    }
 
     @Test
     public void should_reject_command_of_tea_when_not_enougth_money(){
@@ -70,11 +95,13 @@ public class CoffeeMachineAdapterTest {
     private void Given_not_enougth_money_for_TEA() {
         service.receiveCoin(30);
     }
+    private void Given_enougth_money_for_Orange_Juice() {
+        service.receiveCoin(60);
+    }
 
     private void Given_not_enougth_money_for_COFFEE() {
         service.receiveCoin(30);
     }
-// One tea is 0,4 euro, a coffee is 0,6 euro, a chocolate is 0,5 euro.
     private void Given_enougth_money_for_CHOCOLATE() {
         service.receiveCoin(50);
     }
@@ -102,7 +129,10 @@ public class CoffeeMachineAdapterTest {
     }
 
     private void when_we_command(BeverageType beverageType, int nbSugar) {
-        service.command(beverageType, nbSugar);
+        service.command(new BeverageCommand(beverageType, nbSugar,false));
+    }
+    private void when_we_command_extra_hot(BeverageType beverageType, int nbSugar) {
+        service.command(new BeverageCommand(beverageType, nbSugar,true));
     }
 
 }
