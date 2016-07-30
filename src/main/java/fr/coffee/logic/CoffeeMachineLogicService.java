@@ -13,15 +13,15 @@ public class CoffeeMachineLogicService {
 
     public void command(BeverageCommand command) {
 
-        if(hasEnoughtMoneyFor(command)){
-            sendMessage("missing money");
-        } else {
+        if (hasEnoughtMoneyFor(command)) {
             make(command);
+        } else {
+            sendMessage("missing money");
         }
     }
 
     private boolean hasEnoughtMoneyFor(BeverageCommand command) {
-        return command.getBeverageType().costMoreThan(moneyInCents);
+        return !command.getBeverageType().costMoreThan(moneyInCents);
     }
 
     private void make(BeverageCommand beverageToCommand) {
