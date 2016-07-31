@@ -1,8 +1,6 @@
 package fr.coffee.logic;
 
-/**
- * Created by cafetux on 28/07/2016.
- */
+
 public enum BeverageType {
 
     // One tea is 0,4 euro, a coffee is 0,6 euro, a chocolate is 0,5 euro.
@@ -18,6 +16,10 @@ public enum BeverageType {
 
     public String getMakerCode() {
         return makerCode;
+    }
+
+    public int getPriceInCents() {
+        return priceInCents;
     }
 
     public boolean costMoreThan(int moneyInCents) {

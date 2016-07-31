@@ -1,8 +1,6 @@
 package fr.coffee.logic;
 
-/**
- * Created by cafetux on 28/07/2016.
- */
+
 public class BeverageCommand {
     private BeverageType beverageType;
     private int nbSugars=0;
