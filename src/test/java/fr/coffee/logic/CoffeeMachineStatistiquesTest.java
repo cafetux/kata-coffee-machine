@@ -1,6 +1,6 @@
 package fr.coffee.logic;
 
-import fr.coffee.maker.CoffeeMaker;
+import fr.coffee.integration.CoffeeMaker;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +51,7 @@ public class CoffeeMachineStatistiquesTest {
     }
 
     private void then_we_have_display(String reportMessage) {
-        Mockito.verify(maker, atLeastOnce()).make(captor.capture());
+        Mockito.verify(maker, atLeastOnce()).send(captor.capture());
         List<String> commands = captor.getAllValues();
         Assertions.assertThat(commands).endsWith(reportMessage);
     }

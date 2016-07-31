@@ -1,27 +1,38 @@
 package fr.coffee.logic;
 
+import fr.coffee.integration.BeverageQuantityChecker;
+import fr.coffee.integration.CoffeeMaker;
+import fr.coffee.integration.EmailNotifier;
 import fr.coffee.logic.history.CommandEvent;
 import fr.coffee.logic.history.History;
-import fr.coffee.maker.CoffeeMaker;
 
 /**
  * transform GUI commands on coffeeMachine protocol command
  */
 public class CoffeeMachineLogicService {
 
-    private CoffeeMakerAdapter adapter = new CoffeeMakerAdapter();
     private CoffeeMaker maker;
+    private BeverageQuantityChecker beverageQuantityChecker;
+    private EmailNotifier emailNotifier;
+
+    private CoffeeMakerAdapter adapter = new CoffeeMakerAdapter();
     private History history = new History();
     private int moneyInCents = 0;
 
     public void command(BeverageCommand command) {
 
-        if (hasEnoughtMoneyFor(command)) {
+        if (hasEnougthBeverage(command.getBeverageType()) && hasEnoughtMoneyFor(command)) {
             make(command);
             addToHistory(command);
-        } else {
-            sendMessage("missing money");
         }
+    }
+
+    private boolean hasEnougthBeverage(BeverageType beverageType) {
+        if(beverageQuantityChecker.isEmpty(beverageType.getMakerCode())){
+            emailNotifier.notifyMissingDrink(beverageType.getMakerCode());
+            return false;
+        }
+        return true;
     }
 
     private void addToHistory(BeverageCommand command) {
@@ -29,15 +40,19 @@ public class CoffeeMachineLogicService {
     }
 
     private boolean hasEnoughtMoneyFor(BeverageCommand command) {
-        return !command.getBeverageType().costMoreThan(moneyInCents);
+        if(command.getBeverageType().costMoreThan(moneyInCents)){
+            sendMessage("missing money");
+            return false;
+        }
+        return true;
     }
 
     private void make(BeverageCommand beverageToCommand) {
-        maker.make(adapter.adapt(beverageToCommand));
+        maker.send(adapter.adapt(beverageToCommand));
     }
 
     private void sendMessage(final String message) {
-        maker.make("M:" + message);
+        maker.send("M:" + message);
     }
 
 

@@ -5,7 +5,7 @@ import fr.coffee.logic.history.History;
 import static fr.coffee.logic.BeverageType.*;
 
 /**
- * Created by cafetux on 30/07/2016.
+ * adapt business objects to maker command
  */
 public class CoffeeMakerAdapter {
 
@@ -20,7 +20,7 @@ public class CoffeeMakerAdapter {
             makerInstruction.append(command.getNbSugars());
             makerInstruction.append(":");
             makerInstruction.append("0");
-        }else{
+        } else{
             makerInstruction.append(":");
         }
         return makerInstruction.toString();
@@ -29,7 +29,5 @@ public class CoffeeMakerAdapter {
     public String adapt(History history){
         return "C:"+history.count(COFFEE)+" T:"+history.count(TEA)+" H:"+history.count(CHOCOLATE)+" O:"+history.count(ORANGE_JUICE)+" €:"+history.getAmountEarnedInCents()/100;
     }
-
-
 
 }
