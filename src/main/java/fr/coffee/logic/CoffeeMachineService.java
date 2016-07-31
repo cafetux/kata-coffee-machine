@@ -1,19 +1,17 @@
 package fr.coffee.logic;
 
 import fr.coffee.integration.BeverageQuantityChecker;
-import fr.coffee.integration.CoffeeMaker;
 import fr.coffee.integration.EmailNotifier;
 import fr.coffee.logic.command.BeverageCommand;
 import fr.coffee.logic.command.BeverageType;
 import fr.coffee.logic.history.CommandEvent;
 import fr.coffee.logic.history.History;
+import fr.coffee.maker.CoffeeMakerDriver;
 
-/**
- * transform GUI commands on coffeeMachine protocol command
- */
+
 public class CoffeeMachineService {
 
-    private CoffeeMaker maker;
+    private CoffeeMakerDriver coffeeMakerDriver;
     private BeverageQuantityChecker beverageQuantityChecker;
     private EmailNotifier emailNotifier;
 
@@ -23,13 +21,20 @@ public class CoffeeMachineService {
 
     public void command(BeverageCommand command) {
 
-        if (hasEnougthBeverage(command.getBeverageType()) && hasEnoughtMoneyFor(command)) {
+        if (hasEnoughBeverage(command.getBeverageType()) && hasEnoughMoneyFor(command)) {
             make(command);
             addToHistory(command);
         }
     }
 
-    private boolean hasEnougthBeverage(BeverageType beverageType) {
+    public void receiveCoin(int centimes) {
+        this.moneyInCents+=centimes;
+    }
+
+    public void displayReport() {
+        sendMessage(adapter.adapt(history));
+    }
+    private boolean hasEnoughBeverage(BeverageType beverageType) {
         if(beverageQuantityChecker.isEmpty(beverageType.getMakerCode())){
             emailNotifier.notifyMissingDrink(beverageType.getMakerCode());
             return false;
@@ -41,7 +46,7 @@ public class CoffeeMachineService {
         history.add(new CommandEvent(command.getBeverageType().getMakerCode(),command.getBeverageType().getPriceInCents()));
     }
 
-    private boolean hasEnoughtMoneyFor(BeverageCommand command) {
+    private boolean hasEnoughMoneyFor(BeverageCommand command) {
         if(command.getBeverageType().costMoreThan(moneyInCents)){
             sendMessage("missing money");
             return false;
@@ -50,19 +55,11 @@ public class CoffeeMachineService {
     }
 
     private void make(BeverageCommand beverageToCommand) {
-        maker.send(adapter.adapt(beverageToCommand));
+        coffeeMakerDriver.command(beverageToCommand);
     }
 
     private void sendMessage(final String message) {
-        maker.send("M:" + message);
+        coffeeMakerDriver.display(message);
     }
 
-
-    public void receiveCoin(int centimes) {
-        this.moneyInCents+=centimes;
-    }
-
-    public void displayReport() {
-        sendMessage(adapter.adapt(history));
-    }
 }

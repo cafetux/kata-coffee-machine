@@ -6,7 +6,7 @@ package fr.coffee.integration;
 public interface CoffeeMaker {
 
     /**
-     * send comma,d to the coffee maker
+     * send command to the coffee maker
      * @param command the command to send
      */
     void send(String command);

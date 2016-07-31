@@ -1,8 +1,10 @@
 package fr.coffee.logic;
 
-import fr.coffee.integration.CoffeeMaker;
+import fr.coffee.integration.BeverageQuantityChecker;
+import fr.coffee.integration.EmailNotifier;
 import fr.coffee.logic.command.BeverageCommand;
 import fr.coffee.logic.command.BeverageType;
+import fr.coffee.maker.CoffeeMakerDriver;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.List;
 import java.util.Random;
 
 import static fr.coffee.logic.command.BeverageType.*;
@@ -25,7 +26,12 @@ public class CoffeeMachineService_StatistiquesTest {
     @InjectMocks
     private CoffeeMachineService service;
     @Mock
-    private CoffeeMaker maker;
+    private CoffeeMakerDriver coffeeMakerDriver;
+    @Mock
+    private BeverageQuantityChecker checker;
+    @Mock
+    private EmailNotifier notifier;
+
     private Random random = new Random();
     private ArgumentCaptor<String> captor = forClass(String.class);
 
@@ -33,7 +39,7 @@ public class CoffeeMachineService_StatistiquesTest {
     public void should_retrieve_empty_statistiques_when_nothing_bought(){
         given_no_command_today();
         when_we_retrieve_report();
-        then_we_have_display("M:C:0 T:0 H:0 O:0 €:0.0");
+        then_we_have_display("C:0 T:0 H:0 O:0 €:0.0");
     }
 
     @Test
@@ -49,13 +55,13 @@ public class CoffeeMachineService_StatistiquesTest {
         when_we_retrieve_report();
 
          // 3*0.60 + 2*0.40 + 1*0.50 + 1*0.60 = 3.7
-        then_we_have_display("M:C:3 T:2 H:1 O:1 €:3.7");
+        then_we_have_display("C:3 T:2 H:1 O:1 €:3.7");
     }
 
     private void then_we_have_display(String reportMessage) {
-        Mockito.verify(maker, atLeastOnce()).send(captor.capture());
-        List<String> commands = captor.getAllValues();
-        Assertions.assertThat(commands).endsWith(reportMessage);
+        Mockito.verify(coffeeMakerDriver, atLeastOnce()).display(captor.capture());
+        String displayMessage = captor.getValue();
+        Assertions.assertThat(displayMessage).endsWith(reportMessage);
     }
 
     private void when_we_retrieve_report() {
