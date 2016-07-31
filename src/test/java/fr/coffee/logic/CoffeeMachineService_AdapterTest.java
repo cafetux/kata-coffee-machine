@@ -3,6 +3,8 @@ package fr.coffee.logic;
 import fr.coffee.integration.BeverageQuantityChecker;
 import fr.coffee.integration.CoffeeMaker;
 import fr.coffee.integration.EmailNotifier;
+import fr.coffee.logic.command.BeverageCommand;
+import fr.coffee.logic.command.BeverageType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -10,15 +12,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static fr.coffee.logic.BeverageType.*;
+import static fr.coffee.logic.command.BeverageType.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CoffeeMachineAdapterTest {
+public class CoffeeMachineService_AdapterTest {
 
     @InjectMocks
-    private CoffeeMachineLogicService service;
+    private CoffeeMachineService service;
     @Mock
     private CoffeeMaker maker;
     @Mock

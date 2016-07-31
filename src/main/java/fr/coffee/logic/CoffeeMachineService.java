@@ -3,13 +3,15 @@ package fr.coffee.logic;
 import fr.coffee.integration.BeverageQuantityChecker;
 import fr.coffee.integration.CoffeeMaker;
 import fr.coffee.integration.EmailNotifier;
+import fr.coffee.logic.command.BeverageCommand;
+import fr.coffee.logic.command.BeverageType;
 import fr.coffee.logic.history.CommandEvent;
 import fr.coffee.logic.history.History;
 
 /**
  * transform GUI commands on coffeeMachine protocol command
  */
-public class CoffeeMachineLogicService {
+public class CoffeeMachineService {
 
     private CoffeeMaker maker;
     private BeverageQuantityChecker beverageQuantityChecker;

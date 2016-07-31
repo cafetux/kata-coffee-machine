@@ -1,4 +1,4 @@
-package fr.coffee.logic;
+package fr.coffee.logic.command;
 
 
 public enum BeverageType {

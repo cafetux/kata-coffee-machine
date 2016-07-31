@@ -1,6 +1,8 @@
 package fr.coffee.logic;
 
 import fr.coffee.integration.CoffeeMaker;
+import fr.coffee.logic.command.BeverageCommand;
+import fr.coffee.logic.command.BeverageType;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,15 +15,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.List;
 import java.util.Random;
 
-import static fr.coffee.logic.BeverageType.*;
+import static fr.coffee.logic.command.BeverageType.*;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Mockito.atLeastOnce;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CoffeeMachineStatistiquesTest {
+public class CoffeeMachineService_StatistiquesTest {
 
     @InjectMocks
-    private CoffeeMachineLogicService service;
+    private CoffeeMachineService service;
     @Mock
     private CoffeeMaker maker;
     private Random random = new Random();

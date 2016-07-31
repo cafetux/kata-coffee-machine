@@ -1,14 +1,20 @@
 package fr.coffee.logic;
 
+import fr.coffee.logic.command.BeverageCommand;
 import fr.coffee.logic.history.History;
 
-import static fr.coffee.logic.BeverageType.*;
+import static fr.coffee.logic.command.BeverageType.*;
 
 /**
  * adapt business objects to maker command
  */
 public class CoffeeMakerAdapter {
 
+    /**
+     * Adapt command object to maker order
+     * @param command
+     * @return the srting to command
+     */
     public String adapt(BeverageCommand command){
         StringBuilder makerInstruction = new StringBuilder();
         makerInstruction.append(command.getBeverageType().getMakerCode());
