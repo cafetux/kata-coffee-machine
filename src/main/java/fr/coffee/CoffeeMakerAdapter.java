@@ -1,9 +1,9 @@
-package fr.coffee.logic;
+package fr.coffee;
 
-import fr.coffee.logic.command.BeverageCommand;
-import fr.coffee.logic.history.History;
+import fr.coffee.command.BeverageCommand;
+import fr.coffee.history.History;
 
-import static fr.coffee.logic.command.BeverageType.*;
+import static fr.coffee.command.BeverageType.*;
 
 /**
  * adapt business objects to maker command

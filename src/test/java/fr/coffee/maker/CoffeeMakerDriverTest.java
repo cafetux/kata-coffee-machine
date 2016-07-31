@@ -1,8 +1,8 @@
 package fr.coffee.maker;
 
 import fr.coffee.integration.CoffeeMaker;
-import fr.coffee.logic.command.BeverageCommand;
-import fr.coffee.logic.command.BeverageType;
+import fr.coffee.command.BeverageCommand;
+import fr.coffee.command.BeverageType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static fr.coffee.logic.command.BeverageType.*;
+import static fr.coffee.command.BeverageType.*;
 import static org.mockito.Mockito.only;
 
 @RunWith(MockitoJUnitRunner.class)

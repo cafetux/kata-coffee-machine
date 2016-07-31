@@ -1,8 +1,8 @@
-package fr.coffee.logic.history;
+package fr.coffee.history;
 
 import org.junit.Test;
 
-import static fr.coffee.logic.command.BeverageType.*;
+import static fr.coffee.command.BeverageType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HistoryTest {

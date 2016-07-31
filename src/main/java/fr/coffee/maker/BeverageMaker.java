@@ -1,6 +1,6 @@
 package fr.coffee.maker;
 
-import fr.coffee.logic.command.BeverageCommand;
+import fr.coffee.command.BeverageCommand;
 
 /**
  * Command some beverages to coffeeMaker

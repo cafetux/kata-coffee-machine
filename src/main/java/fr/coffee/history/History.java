@@ -1,6 +1,6 @@
-package fr.coffee.logic.history;
+package fr.coffee.history;
 
-import fr.coffee.logic.command.BeverageType;
+import fr.coffee.command.BeverageType;
 
 import java.util.ArrayList;
 import java.util.List;

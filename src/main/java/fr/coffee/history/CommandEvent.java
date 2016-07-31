@@ -1,4 +1,4 @@
-package fr.coffee.logic.history;
+package fr.coffee.history;
 
 /**
  * Created by cafetux on 31/07/2016.

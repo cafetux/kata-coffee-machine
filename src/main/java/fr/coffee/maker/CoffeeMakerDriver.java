@@ -1,8 +1,8 @@
 package fr.coffee.maker;
 
 import fr.coffee.integration.CoffeeMaker;
-import fr.coffee.logic.CoffeeMakerAdapter;
-import fr.coffee.logic.command.BeverageCommand;
+import fr.coffee.CoffeeMakerAdapter;
+import fr.coffee.command.BeverageCommand;
 
 /**
  * Abstraction permettant d'interragir avec le coffeeMaker

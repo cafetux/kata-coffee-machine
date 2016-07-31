@@ -1,4 +1,4 @@
-package fr.coffee.logic.command;
+package fr.coffee.command;
 
 
 public class BeverageCommand {

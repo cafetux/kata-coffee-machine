@@ -1,9 +1,10 @@
-package fr.coffee.logic;
+package fr.coffee;
 
+import fr.coffee.CoffeeMachineService;
 import fr.coffee.integration.BeverageQuantityChecker;
 import fr.coffee.integration.EmailNotifier;
-import fr.coffee.logic.command.BeverageCommand;
-import fr.coffee.logic.command.BeverageType;
+import fr.coffee.command.BeverageCommand;
+import fr.coffee.command.BeverageType;
 import fr.coffee.maker.CoffeeMakerDriver;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Random;
 
-import static fr.coffee.logic.command.BeverageType.*;
+import static fr.coffee.command.BeverageType.*;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Mockito.atLeastOnce;
 
