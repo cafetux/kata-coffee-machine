@@ -22,7 +22,7 @@ public class CoffeeMachineService {
     public void command(BeverageCommand command) {
 
         if (hasEnoughBeverage(command.getBeverageType()) && hasEnoughMoneyFor(command)) {
-            make(command);
+            coffeeMakerDriver.command(command);
             addToHistory(command);
         }
     }
@@ -32,7 +32,7 @@ public class CoffeeMachineService {
     }
 
     public void displayReport() {
-        sendMessage(adapter.adapt(history));
+        coffeeMakerDriver.display(adapter.adapt(history));
     }
     private boolean hasEnoughBeverage(BeverageType beverageType) {
         if(beverageQuantityChecker.isEmpty(beverageType.getMakerCode())){
@@ -41,25 +41,14 @@ public class CoffeeMachineService {
         }
         return true;
     }
-
     private void addToHistory(BeverageCommand command) {
         history.add(new CommandEvent(command.getBeverageType().getMakerCode(),command.getBeverageType().getPriceInCents()));
     }
-
     private boolean hasEnoughMoneyFor(BeverageCommand command) {
         if(command.getBeverageType().costMoreThan(moneyInCents)){
-            sendMessage("missing money");
+            coffeeMakerDriver.display("missing money");
             return false;
         }
         return true;
     }
-
-    private void make(BeverageCommand beverageToCommand) {
-        coffeeMakerDriver.command(beverageToCommand);
-    }
-
-    private void sendMessage(final String message) {
-        coffeeMakerDriver.display(message);
-    }
-
 }
