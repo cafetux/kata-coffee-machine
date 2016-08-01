@@ -21,34 +21,36 @@ public class CoffeeMachineService {
 
     public void command(BeverageCommand command) {
 
-        if (hasEnoughBeverage(command.getBeverageType()) && hasEnoughMoneyFor(command)) {
-            coffeeMakerDriver.command(command);
-            addToHistory(command);
+        if (missingBeverage(command.getBeverageType())) {
+            emailNotifier.notifyMissingDrink(command.getBeverageType().getMakerCode());
+            return;
         }
+        if (missingMoneyFor(command.getBeverageType())) {
+            coffeeMakerDriver.display("missing money");
+            return;
+        }
+        coffeeMakerDriver.command(command);
+        addToHistory(command);
+
     }
 
     public void receiveCoin(int centimes) {
-        this.moneyInCents+=centimes;
+        this.moneyInCents += centimes;
     }
 
     public void displayReport() {
         coffeeMakerDriver.display(adapter.adapt(history));
     }
-    private boolean hasEnoughBeverage(BeverageType beverageType) {
-        if(beverageQuantityChecker.isEmpty(beverageType.getMakerCode())){
-            emailNotifier.notifyMissingDrink(beverageType.getMakerCode());
-            return false;
-        }
-        return true;
+
+    private boolean missingBeverage(BeverageType beverageType) {
+        return beverageQuantityChecker.isEmpty(beverageType.getMakerCode());
     }
+
     private void addToHistory(BeverageCommand command) {
-        history.add(new CommandEvent(command.getBeverageType().getMakerCode(),command.getBeverageType().getPriceInCents()));
+        history.add(new CommandEvent(command.getBeverageType().getMakerCode(), command.getBeverageType().getPriceInCents()));
     }
-    private boolean hasEnoughMoneyFor(BeverageCommand command) {
-        if(command.getBeverageType().costMoreThan(moneyInCents)){
-            coffeeMakerDriver.display("missing money");
-            return false;
-        }
-        return true;
+
+    private boolean missingMoneyFor(BeverageType beverageType) {
+        return beverageType.costMoreThan(moneyInCents);
     }
 }

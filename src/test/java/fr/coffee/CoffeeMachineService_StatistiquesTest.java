@@ -1,10 +1,9 @@
 package fr.coffee;
 
-import fr.coffee.CoffeeMachineService;
-import fr.coffee.integration.BeverageQuantityChecker;
-import fr.coffee.integration.EmailNotifier;
 import fr.coffee.command.BeverageCommand;
 import fr.coffee.command.BeverageType;
+import fr.coffee.integration.BeverageQuantityChecker;
+import fr.coffee.integration.EmailNotifier;
 import fr.coffee.maker.CoffeeMakerDriver;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
